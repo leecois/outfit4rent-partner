@@ -1,7 +1,7 @@
 import { SearchOutlined } from '@ant-design/icons';
 import {
+  CreateButton,
   DateField,
-  ExportButton,
   FilterDropdown,
   getDefaultSortOrder,
   List,
@@ -10,18 +10,23 @@ import {
 import type { HttpError } from '@refinedev/core';
 import {
   getDefaultFilter,
-  useExport,
+  useGo,
   useNavigation,
   useTranslate,
 } from '@refinedev/core';
 import { Input, Select, Table, theme, Typography } from 'antd';
+import type { PropsWithChildren } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import { PaginationTotal } from '../../components';
 import { ReturnOrderStatus } from '../../components/return-orders/status';
 import type { IReturnOrder } from '../../interfaces';
 
-export const ReturnOrderList = () => {
+export const ReturnOrderList = ({ children }: PropsWithChildren) => {
   const { token } = theme.useToken();
+  const go = useGo();
+  const { pathname } = useLocation();
+  const { createUrl } = useNavigation();
 
   const { tableProps, sorters, filters } = useTable<IReturnOrder, HttpError>({
     resource: 'return-orders',
@@ -88,30 +93,29 @@ export const ReturnOrderList = () => {
   const t = useTranslate();
   const { show } = useNavigation();
 
-  const { isLoading, triggerExport } = useExport<IReturnOrder>({
-    sorters,
-    filters,
-    pageSize: 50,
-    maxItemCount: 50,
-    mapData: (item) => {
-      return {
-        id: item.id,
-        address: item.address,
-        customerId: item.customerId,
-        dateReturn: item.dateReturn,
-        name: item.name,
-        partnerId: item.partnerId,
-        phone: item.phone,
-        status: item.status,
-      };
-    },
-  });
-
   return (
     <List
-      headerProps={{
-        extra: <ExportButton onClick={triggerExport} loading={isLoading} />,
-      }}
+      headerButtons={(props) => [
+        <CreateButton
+          {...props.createButtonProps}
+          key="create"
+          size="large"
+          onClick={() => {
+            return go({
+              to: `${createUrl('return-orders')}`,
+              query: {
+                to: pathname,
+              },
+              options: {
+                keepQuery: true,
+              },
+              type: 'replace',
+            });
+          }}
+        >
+          {t('return-orders.fields.create')}
+        </CreateButton>,
+      ]}
     >
       <Table
         {...tableProps}
@@ -301,6 +305,7 @@ export const ReturnOrderList = () => {
           )}
         />
       </Table>
+      {children}
     </List>
   );
 };

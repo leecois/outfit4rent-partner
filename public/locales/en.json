@@ -809,7 +809,8 @@
       "orderId": "OrderID",
       "dateReturn": "Date Return",
       "quantityOfItems": "Quantity Items",
-      "totalThornMoney": "Thorn Money"
+      "totalThornMoney": "Thorn Money",
+      "create": "Create Return Order"
     },
     "id": "Return Order ID",
     "return-orders": "Return Order"
@@ -820,5 +821,8 @@
     },
     "minLength": "Min {{min}} character",
     "maxLength": "Max {{max}} character"
+  },
+  "return-order": {
+    "create": "Create Return Order"
   }
 }

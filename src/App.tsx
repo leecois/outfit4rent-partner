@@ -44,7 +44,7 @@ import {
   ProductList,
   ProductShow,
 } from './pages/products';
-import { ReturnOrderList, ReturnOrderShow } from './pages/return-order';
+import { ReturnOrderCreate, ReturnOrderList } from './pages/return-order';
 import { dataProvider } from './rest-data-provider';
 
 interface TitleHandlerOptions {
@@ -103,6 +103,15 @@ const App: React.FC = () => {
                     icon: <ShoppingOutlined />,
                   },
                 },
+                {
+                  name: 'return-orders',
+                  list: '/return-orders',
+                  show: '/return-orders/:id',
+                  create: '/return-orders/new',
+                  meta: {
+                    icon: <ShoppingOutlined />,
+                  },
+                },
               ]}
             >
               <Routes>
@@ -155,8 +164,18 @@ const App: React.FC = () => {
                   </Route>
                   ///
                   <Route path="/return-orders">
-                    <Route index element={<ReturnOrderList />} />
-                    <Route path=":id" element={<ReturnOrderShow />} />
+                    <Route
+                      path="/return-orders"
+                      element={
+                        <ReturnOrderList>
+                          <Outlet />
+                        </ReturnOrderList>
+                      }
+                    >
+                      <Route path="new" element={<ReturnOrderCreate />} />
+                    </Route>
+
+                    <Route path=":id/edit" element={<PackagesEdit />} />
                   </Route>
                   <Route path="/partners">
                     <Route index element={<PartnerList />} />
@@ -189,7 +208,7 @@ const App: React.FC = () => {
                   </Route>
                   <Route path="/packages">
                     <Route
-                      path=""
+                      path="/packages"
                       element={
                         <PackagesList>
                           <Outlet />
