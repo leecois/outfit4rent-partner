@@ -1,11 +1,8 @@
-import { CloseCircleOutlined, LeftOutlined } from '@ant-design/icons';
-import { List, ListButton } from '@refinedev/antd';
-import { useApiUrl, useShow, useTranslate } from '@refinedev/core';
-import { Button, Col, Divider, Flex, message, Row, Skeleton } from 'antd';
-import axios from 'axios';
+import { List } from '@refinedev/antd';
+import { useShow, useTranslate } from '@refinedev/core';
+import { Col, Divider, Flex, Row, Skeleton } from 'antd';
 import React, { useEffect, useState } from 'react';
 
-import { ButtonSuccess } from '../../button';
 import {
   CardWithContent,
   OrderDeliveryDetails,
@@ -25,62 +22,8 @@ export const OrderShow = () => {
     }
   }, [data]);
 
-  const apiUrl = useApiUrl();
-
-  const handleUpdateStatus = async (id: number, status: number) => {
-    try {
-      const response = await axios.patch(
-        `${apiUrl}/orders/${id}/status/${status}`,
-        {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      );
-
-      if (response.status === 500) {
-        throw new Error('Network response was not ok');
-      }
-
-      const updatedOrder = (await response.data.data) as IOrder;
-      message.success(`Order ${id} status updated to ${status}`);
-      setRecord(updatedOrder);
-    } catch (error) {
-      message.error(`Failed to update order ${id} status`);
-    }
-  };
-
-  const canAcceptOrder = isLoading ? false : record?.status === 0;
-  const canRejectOrder = isLoading ? false : record?.status === 0;
-
   return (
     <>
-      <Flex style={{ justifyContent: 'space-between', alignItems: 'center' }}>
-        <ListButton icon={<LeftOutlined />}>{t('orders.orders')}</ListButton>
-        <Divider type="vertical" />
-        <div>
-          <ButtonSuccess
-            disabled={!canAcceptOrder}
-            style={{ marginRight: 8 }}
-            onClick={() => {
-              handleUpdateStatus((record as IOrder)?.id, 1);
-            }}
-          >
-            {t('buttons.accept')}
-          </ButtonSuccess>
-          <Button
-            disabled={!canRejectOrder}
-            danger
-            icon={<CloseCircleOutlined />}
-            onClick={() => {
-              handleUpdateStatus((record as IOrder)?.id, -1);
-            }}
-          >
-            {t('buttons.reject')}
-          </Button>
-        </div>
-      </Flex>
       <Divider />
       <List
         breadcrumb={false}

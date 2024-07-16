@@ -1,15 +1,7 @@
 import 'dayjs/locale/de';
 import '@refinedev/antd/dist/reset.css';
 
-import {
-  BuildOutlined,
-  DashboardOutlined,
-  ProductOutlined,
-  ShopOutlined,
-  ShoppingOutlined,
-  TagsOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
+import { ShoppingOutlined } from '@ant-design/icons';
 import {
   ErrorComponent,
   ThemedLayoutV2,
@@ -31,7 +23,6 @@ import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
 
 import { authProvider } from './authProvider';
 import { Header, Title } from './components';
-import { BikeWhiteIcon } from './components/icons';
 import { ConfigProvider } from './context';
 import { useAutoLoginForDemo } from './hooks';
 import { AuthPage } from './pages/auth';
@@ -105,84 +96,11 @@ const App: React.FC = () => {
               notificationProvider={useNotificationProvider}
               resources={[
                 {
-                  name: 'dashboard',
-                  list: '/',
-                  meta: {
-                    label: 'Dashboard',
-                    icon: <DashboardOutlined />,
-                  },
-                },
-                {
                   name: 'orders',
                   list: '/orders',
                   show: '/orders/:id',
                   meta: {
                     icon: <ShoppingOutlined />,
-                  },
-                },
-                {
-                  name: 'return-orders',
-                  list: '/return-orders',
-                  show: '/return-orders/:id',
-                  meta: {
-                    icon: <ShoppingOutlined />,
-                  },
-                },
-                {
-                  name: 'customers',
-                  list: '/customers',
-                  show: '/customers/:id',
-                  meta: {
-                    icon: <UserOutlined />,
-                  },
-                },
-                {
-                  name: 'products',
-                  list: '/products',
-                  create: '/products/new',
-                  edit: '/products/:id/edit',
-                  show: '/products/:id',
-                  meta: {
-                    icon: <ProductOutlined />,
-                  },
-                },
-                {
-                  name: 'categories',
-                  list: '/categories',
-                  create: '/categories/new',
-                  edit: '/categories/:id/edit',
-                  show: '/categories/:id',
-                  meta: {
-                    icon: <TagsOutlined />,
-                  },
-                },
-                {
-                  name: 'brands',
-                  list: '/brands',
-                  create: '/brands/new',
-                  edit: '/brands/:id/edit',
-                  show: '/brands/:id',
-                  meta: {
-                    icon: <BuildOutlined />,
-                  },
-                },
-                {
-                  name: 'partners',
-                  list: '/partners',
-                  create: '/partners/new',
-                  edit: '/partners/:id/edit',
-                  meta: {
-                    icon: <ShopOutlined />,
-                  },
-                },
-                {
-                  name: 'packages',
-                  list: '/packages',
-                  create: '/packages/new',
-                  edit: '/packages/:id/edit',
-                  show: '/packages/:id',
-                  meta: {
-                    icon: <BikeWhiteIcon />,
                   },
                 },
               ]}
@@ -299,7 +217,7 @@ const App: React.FC = () => {
                         type="login"
                         formProps={{
                           initialValues: {
-                            email: 'leecois@gmail.com',
+                            email: 'grab@gmail.com',
                             password: '123456',
                           },
                         }}

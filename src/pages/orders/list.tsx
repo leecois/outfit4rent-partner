@@ -18,7 +18,7 @@ import {
 import { Input, InputNumber, Select, Table, theme, Typography } from 'antd';
 import { useState } from 'react';
 
-import { OrderActions, OrderStatus, PaginationTotal } from '../../components';
+import { OrderStatus, PaginationTotal } from '../../components';
 import type { IOrder } from '../../interfaces';
 
 export const OrderList = () => {
@@ -26,7 +26,7 @@ export const OrderList = () => {
   const t = useTranslate();
   const { show } = useNavigation();
 
-  const [reload, setReload] = useState(false); // State to trigger re-fetch
+  const [reload] = useState(false); // State to trigger re-fetch
 
   const { tableProps, sorters, filters } = useTable<IOrder, HttpError>({
     resource: 'orders',
@@ -122,10 +122,6 @@ export const OrderList = () => {
       };
     },
   });
-
-  const refreshTable = () => {
-    setReload((prev) => !prev); // Toggle reload state to trigger refetch
-  };
 
   return (
     <List
@@ -445,14 +441,6 @@ export const OrderList = () => {
                 placeholder={t('orders.filter.id.placeholder')}
               />
             </FilterDropdown>
-          )}
-        />
-        <Table.Column<IOrder>
-          key="actions"
-          title={t('table.actions')}
-          dataIndex="actions"
-          render={(_, record) => (
-            <OrderActions record={record} onStatusUpdated={refreshTable} />
           )}
         />
       </Table>
