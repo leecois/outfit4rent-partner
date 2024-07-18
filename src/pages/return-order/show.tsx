@@ -1,8 +1,7 @@
-import { CloseCircleOutlined, LeftOutlined } from '@ant-design/icons';
+import { LeftOutlined } from '@ant-design/icons';
 import { List, ListButton } from '@refinedev/antd';
 import { useApiUrl, useShow, useTranslate } from '@refinedev/core';
 import {
-  Button,
   Col,
   Divider,
   Flex,
@@ -18,10 +17,8 @@ import {
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-import { ButtonSuccess } from '../../button';
 import { CardWithContent } from '../../components';
 import { ReturnOrderDetails } from '../../components/return-orders/fieldsForm';
-import { ReturnOrderStatus } from '../../components/return-orders/status';
 import { ReturnOrderProducts } from '../../components/return-orders/tableProduct';
 import type { IProductInReturnOrder, IReturnOrder } from '../../interfaces';
 
@@ -51,7 +48,7 @@ export const ReturnOrderShow = () => {
         );
         setProducts(response.data.data);
       } catch (error) {
-        console.error('Error fetching products:', error);
+        // eslint-disable-next-line no-console
       } finally {
         setLoading(false);
       }
@@ -91,9 +88,6 @@ export const ReturnOrderShow = () => {
     }
   };
 
-  const canAcceptOrder = isLoading ? false : record?.status === 0;
-  const canRejectOrder = isLoading ? false : record?.status === 0;
-
   return (
     <>
       <Flex>
@@ -115,47 +109,18 @@ export const ReturnOrderShow = () => {
               }}
             />
           ) : (
-            <>
-              {`${t('return-orders.id')} #${record?.id}   `}
-              <ReturnOrderStatus
-                status={record?.status as number}
-              ></ReturnOrderStatus>
-            </>
-          )
-        }
-        headerButtons={
-          record?.status !== 0 ? (
-            <ReturnOrderStatus status={record?.status as number} />
-          ) : (
-            <>
-              <ButtonSuccess
-                disabled={!canAcceptOrder}
-                key="accept"
-                onClick={() => setIsModalVisible(true)}
-              >
-                {t('buttons.accept')}
-              </ButtonSuccess>
-              <Button
-                disabled={!canRejectOrder}
-                key="reject"
-                danger
-                icon={<CloseCircleOutlined />}
-                onClick={() => handleUpdateProducts({}, -1)}
-              >
-                {t('buttons.reject')}
-              </Button>
-            </>
+            <>{`${t('return-orders.id')} #${record?.id}   `}</>
           )
         }
       >
         <Row gutter={[16, 16]}>
-          <Col xl={15} lg={24} md={24} sm={24} xs={24}>
+          <Col xl={8} lg={24} md={24} sm={24} xs={24}>
             <Flex gap={16} vertical>
               <ReturnOrderDetails order={record as IReturnOrder} />
             </Flex>
           </Col>
 
-          <Col xl={9} lg={24} md={24} sm={24} xs={24}>
+          <Col xl={16} lg={24} md={24} sm={24} xs={24}>
             <CardWithContent
               bodyStyles={{
                 padding: 0,

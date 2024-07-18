@@ -10,23 +10,36 @@ import {
 import type { HttpError } from '@refinedev/core';
 import {
   getDefaultFilter,
+  useGetIdentity,
   useGo,
   useNavigation,
+  useSelect,
   useTranslate,
 } from '@refinedev/core';
-import { Input, Select, Table, theme, Typography } from 'antd';
+import { Input, Select, Table, theme, Tooltip, Typography } from 'antd';
 import type { PropsWithChildren } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { PaginationTotal } from '../../components';
 import { ReturnOrderStatus } from '../../components/return-orders/status';
-import type { IReturnOrder } from '../../interfaces';
+import type { IOrder, IReturnOrder } from '../../interfaces';
 
 export const ReturnOrderList = ({ children }: PropsWithChildren) => {
   const { token } = theme.useToken();
   const go = useGo();
   const { pathname } = useLocation();
+
   const { createUrl } = useNavigation();
+  const { queryResult } = useSelect<IOrder>({
+    resource: 'orders',
+    optionLabel: 'orderCode',
+    optionValue: 'id',
+  });
+
+  const orders = queryResult?.data?.data || [];
+
+  const { data: identity } = useGetIdentity<{ id: number }>();
+  const partnerId = identity?.id;
 
   const { tableProps, sorters, filters } = useTable<IReturnOrder, HttpError>({
     resource: 'return-orders',
@@ -89,7 +102,7 @@ export const ReturnOrderList = ({ children }: PropsWithChildren) => {
         {
           field: 'partnerId',
           operator: 'eq',
-          value: Number(localStorage.getItem('partnerId')),
+          value: partnerId,
         },
       ],
     },
@@ -248,13 +261,14 @@ export const ReturnOrderList = ({ children }: PropsWithChildren) => {
         />
         <Table.Column<IReturnOrder>
           align="right"
-          key="customerId"
-          dataIndex="customerId"
-          title={t('return-orders.fields.customerId')}
-          defaultSortOrder={getDefaultSortOrder('customerId', sorters)}
-          defaultFilteredValue={getDefaultFilter('customerId', filters, 'eq')}
+          key="partnerId"
+          dataIndex="partnerId"
+          title={t('return-orders.fields.partnerId')}
+          defaultSortOrder={getDefaultSortOrder('partnerId', sorters)}
+          defaultFilteredValue={getDefaultFilter('partnerId', filters, 'eq')}
           sorter
         />
+
         <Table.Column<IReturnOrder>
           align="right"
           key="customerPackageId"
@@ -267,6 +281,16 @@ export const ReturnOrderList = ({ children }: PropsWithChildren) => {
             'eq',
           )}
           sorter
+          render={(value) => {
+            const matchingOrder = orders.find((order) => order.id === value);
+            return matchingOrder ? (
+              <Tooltip title={`Order ID: ${value}`}>
+                #{matchingOrder.orderCode}
+              </Tooltip>
+            ) : (
+              value
+            );
+          }}
         />
         <Table.Column<IReturnOrder>
           key="dateReturn"

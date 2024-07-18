@@ -1,7 +1,11 @@
 import 'dayjs/locale/de';
 import '@refinedev/antd/dist/reset.css';
 
-import { ShoppingOutlined } from '@ant-design/icons';
+import {
+  DashboardOutlined,
+  ProductOutlined,
+  ShoppingOutlined,
+} from '@ant-design/icons';
 import {
   ErrorComponent,
   ThemedLayoutV2,
@@ -24,27 +28,14 @@ import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
 import { authProvider } from './authProvider';
 import { Header, Title } from './components';
 import { ConfigProvider } from './context';
-import { useAutoLoginForDemo } from './hooks';
 import { AuthPage } from './pages/auth';
-import { BrandCreate, BrandEdit, BrandList, BrandShow } from './pages/brands';
-import {
-  CategoryCreate,
-  CategoryEdit,
-  CategoryList,
-  CategoryShow,
-} from './pages/categories';
-import { CustomerList, CustomerShow } from './pages/customers';
 import { DashboardPage } from './pages/dashboard';
-import { OrderList, OrderShow } from './pages/orders';
-import { PackagesCreate, PackagesEdit, PackagesList } from './pages/packages';
-import { PartnerCreate, PartnerEdit, PartnerList } from './pages/partners';
+import { ProductList, ProductShow } from './pages/products';
 import {
-  ProductCreate,
-  ProductEdit,
-  ProductList,
-  ProductShow,
-} from './pages/products';
-import { ReturnOrderCreate, ReturnOrderList } from './pages/return-order';
+  ReturnOrderCreate,
+  ReturnOrderList,
+  ReturnOrderShow,
+} from './pages/return-order';
 import { dataProvider } from './rest-data-provider';
 
 interface TitleHandlerOptions {
@@ -60,7 +51,7 @@ const customTitleHandler = ({ resource }: TitleHandlerOptions): string => {
 const App: React.FC = () => {
   // This hook is used to automatically login the user.
   // We use this hook to skip the login page and demonstrate the application more quickly.
-  const { loading } = useAutoLoginForDemo();
+  // const { loading } = useAutoLoginForDemo();
 
   const API_URL = import.meta.env.VITE_API_URL;
 
@@ -74,9 +65,9 @@ const App: React.FC = () => {
     getLocale: () => i18n.language,
   };
 
-  if (loading) {
-    return null;
-  }
+  // if (loading) {
+  //   return null;
+  // }
 
   return (
     <BrowserRouter>
@@ -96,11 +87,11 @@ const App: React.FC = () => {
               notificationProvider={useNotificationProvider}
               resources={[
                 {
-                  name: 'orders',
-                  list: '/orders',
-                  show: '/orders/:id',
+                  name: 'dashboard',
+                  list: '/',
                   meta: {
-                    icon: <ShoppingOutlined />,
+                    label: 'Dashboard',
+                    icon: <DashboardOutlined />,
                   },
                 },
                 {
@@ -110,6 +101,14 @@ const App: React.FC = () => {
                   create: '/return-orders/new',
                   meta: {
                     icon: <ShoppingOutlined />,
+                  },
+                },
+                {
+                  name: 'products',
+                  list: '/products',
+                  show: '/products/:id',
+                  meta: {
+                    icon: <ProductOutlined />,
                   },
                 },
               ]}
@@ -136,20 +135,6 @@ const App: React.FC = () => {
                   }
                 >
                   <Route index element={<DashboardPage />} />
-                  <Route path="/orders">
-                    <Route index element={<OrderList />} />
-                    <Route path=":id" element={<OrderShow />} />
-                  </Route>
-                  <Route
-                    path="/customers"
-                    element={
-                      <CustomerList>
-                        <Outlet />
-                      </CustomerList>
-                    }
-                  >
-                    <Route path=":id" element={<CustomerShow />} />
-                  </Route>
                   <Route
                     path="/products"
                     element={
@@ -158,11 +143,9 @@ const App: React.FC = () => {
                       </ProductList>
                     }
                   >
-                    <Route path="new" element={<ProductCreate />} />
                     <Route path=":id" element={<ProductShow />} />
-                    <Route path=":id/edit" element={<ProductEdit />} />
                   </Route>
-                  ///
+
                   <Route path="/return-orders">
                     <Route
                       path="/return-orders"
@@ -174,51 +157,7 @@ const App: React.FC = () => {
                     >
                       <Route path="new" element={<ReturnOrderCreate />} />
                     </Route>
-
-                    <Route path=":id/edit" element={<PackagesEdit />} />
-                  </Route>
-                  <Route path="/partners">
-                    <Route index element={<PartnerList />} />
-                    <Route path="new" element={<PartnerCreate />} />
-                    <Route path=":id/edit" element={<PartnerEdit />} />
-                  </Route>
-                  <Route
-                    path="/categories"
-                    element={
-                      <CategoryList>
-                        <Outlet />
-                      </CategoryList>
-                    }
-                  >
-                    <Route path="new" element={<CategoryCreate />} />
-                    <Route path=":id" element={<CategoryShow />} />
-                    <Route path=":id/edit" element={<CategoryEdit />} />
-                  </Route>
-                  <Route
-                    path="/brands"
-                    element={
-                      <BrandList>
-                        <Outlet />
-                      </BrandList>
-                    }
-                  >
-                    <Route path="new" element={<BrandCreate />} />
-                    <Route path=":id" element={<BrandShow />} />
-                    <Route path=":id/edit" element={<BrandEdit />} />
-                  </Route>
-                  <Route path="/packages">
-                    <Route
-                      path="/packages"
-                      element={
-                        <PackagesList>
-                          <Outlet />
-                        </PackagesList>
-                      }
-                    >
-                      <Route path="new" element={<PackagesCreate />} />
-                    </Route>
-
-                    <Route path=":id/edit" element={<PackagesEdit />} />
+                    <Route path=":id" element={<ReturnOrderShow />} />
                   </Route>
                 </Route>
 
@@ -236,7 +175,7 @@ const App: React.FC = () => {
                         type="login"
                         formProps={{
                           initialValues: {
-                            email: 'grab@gmail.com',
+                            email: 'grap@gmail.com',
                             password: '123456',
                           },
                         }}

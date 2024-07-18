@@ -1,4 +1,4 @@
-import { NumberField, useSimpleList } from '@refinedev/antd';
+import { useSimpleList } from '@refinedev/antd';
 import { Avatar, Flex, List as AntdList, Typography } from 'antd';
 import type { ReactNode } from 'react';
 
@@ -17,15 +17,16 @@ const RankIcons: Record<number, ReactNode> = {
   4: <Rank4Icon />,
   5: <Rank5Icon />,
 };
-interface ITrendingPackages {
+
+interface ITrendingProduct {
   id: number;
   name: string;
   value: number;
   url: string;
 }
-export const TrendingMenu: React.FC = () => {
-  const { listProps } = useSimpleList<ITrendingPackages>({
-    resource: 'admin/trending-packages',
+export const TrendingProduct: React.FC = () => {
+  const { listProps } = useSimpleList<ITrendingProduct>({
+    resource: 'admin/quantity-renting',
     pagination: { pageSize: 5, current: 1 },
     syncWithLocation: false,
   });
@@ -110,22 +111,13 @@ export const TrendingMenu: React.FC = () => {
                     </Typography.Paragraph>
                   </div>
 
-                  <NumberField
-                    type="secondary"
-                    options={{
-                      currency: 'USD',
-                      style: 'currency',
-                      notation: 'standard',
-                    }}
-                    value={item.value * 200}
-                  />
                   <Typography.Text
                     style={{
                       fontSize: 16,
                     }}
                     type="secondary"
                   >
-                    Ordered{' '}
+                    Renting{' '}
                     <Typography.Text strong>{item.value} </Typography.Text>
                     times
                   </Typography.Text>

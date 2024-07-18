@@ -5,21 +5,19 @@ import axios from 'axios';
 import { disableAutoLogin, enableAutoLogin } from './hooks';
 
 export const TOKEN_KEY = 'o4r-auth';
+export const PARTNER_ID = 'o4r-user-id';
 
 export const authProvider: AuthProvider = {
   login: async ({ email, password }) => {
     try {
-      const encodedEmail = encodeURIComponent(email);
       const response = await axios.get(
-        `https://api.outfit4rent.online/auth/partners/${encodedEmail}/${password}`,
+        `https://api.outfit4rent.online/auth/partners/${email}/${password}`,
       );
 
       if (response.data.statusCode === 'OK') {
-        const { token } = response.data.data.token;
+        const { token, id } = response.data.data;
         localStorage.setItem(TOKEN_KEY, token);
-        console.log('Partner ID:', response.data.data.id as number);
-
-        localStorage.setItem('PARTNER_ID', response.data.data.id);
+        localStorage.setItem(PARTNER_ID, id.toString());
 
         enableAutoLogin();
         return {
@@ -113,14 +111,37 @@ export const authProvider: AuthProvider = {
   getPermissions: async () => null,
   getIdentity: async () => {
     const token = localStorage.getItem(TOKEN_KEY);
-    if (!token) {
+    const partnerId = localStorage.getItem(PARTNER_ID);
+
+    if (!token || !partnerId) {
       return null;
     }
 
-    return {
-      id: 1,
-      name: 'Ackerman',
-      avatar: 'https://i.pravatar.cc/150',
-    };
+    try {
+      const response = await axios.get(
+        `https://api.outfit4rent.online/partners/${partnerId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      if (response.data.statusCode === 'OK') {
+        const { id, name, email, address, phone } = response.data.data;
+        return {
+          id,
+          name,
+          email,
+          address,
+          phone,
+          avatar: 'https://i.pravatar.cc/150', // You can replace this with an actual avatar if available
+        };
+      }
+      throw new Error(response.data.message);
+    } catch (error) {
+      console.error('Error fetching partner details:', error);
+      return null;
+    }
   },
 };

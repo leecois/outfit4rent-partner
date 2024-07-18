@@ -28,7 +28,6 @@ import { useLocation } from 'react-router-dom';
 import type { IBrand, ICategory, IProductList } from '../../../interfaces';
 import { PaginationTotal } from '../../paginationTotal';
 import { ProductStatus } from '../status';
-import { ProductTableColumnRating } from '../tableColumnRating';
 
 export const ProductListTable = () => {
   const { token } = theme.useToken();
@@ -276,12 +275,7 @@ export const ProductListTable = () => {
           );
         }}
       />
-      <Table.Column<IProductList>
-        dataIndex="id"
-        key="ratings"
-        title={t('products.fields.rating')}
-        render={(_, record) => <ProductTableColumnRating product={record} />}
-      />
+
       <Table.Column
         title={t('products.fields.status.label')}
         dataIndex="status"

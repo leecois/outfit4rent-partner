@@ -1,20 +1,16 @@
 import { AppstoreOutlined, UnorderedListOutlined } from '@ant-design/icons';
-import { CreateButton, List } from '@refinedev/antd';
-import { useGo, useNavigation, useTranslate } from '@refinedev/core';
+import { List } from '@refinedev/antd';
+import { useNavigation } from '@refinedev/core';
 import { Segmented } from 'antd';
 import type { PropsWithChildren } from 'react';
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 
-import { ProductListCard, ProductListTable } from '../../components';
+import { ProductListCard, ProductListTable } from '../../components/product';
 
 type View = 'table' | 'card';
 
 export const ProductList = ({ children }: PropsWithChildren) => {
-  const go = useGo();
   const { replace } = useNavigation();
-  const { pathname } = useLocation();
-  const { createUrl } = useNavigation();
 
   const [view, setView] = useState<View>('table');
 
@@ -39,12 +35,10 @@ export const ProductList = ({ children }: PropsWithChildren) => {
     }
   };
 
-  const t = useTranslate();
-
   return (
     <List
       breadcrumb={false}
-      headerButtons={(props) => [
+      headerButtons={() => [
         <Segmented<View>
           key="view"
           size="large"
@@ -64,25 +58,6 @@ export const ProductList = ({ children }: PropsWithChildren) => {
           ]}
           onChange={handleViewChange}
         />,
-        <CreateButton
-          {...props.createButtonProps}
-          key="create"
-          size="large"
-          onClick={() => {
-            return go({
-              to: `${createUrl('products')}`,
-              query: {
-                to: pathname,
-              },
-              options: {
-                keepQuery: true,
-              },
-              type: 'replace',
-            });
-          }}
-        >
-          {t('products.actions.add')}
-        </CreateButton>,
       ]}
     >
       {view === 'table' && <ProductListTable />}
