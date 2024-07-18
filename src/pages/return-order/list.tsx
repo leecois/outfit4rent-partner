@@ -86,6 +86,11 @@ export const ReturnOrderList = ({ children }: PropsWithChildren) => {
           operator: 'contains',
           value: '',
         },
+        {
+          field: 'partnerId',
+          operator: 'eq',
+          value: Number(localStorage.getItem('partnerId')),
+        },
       ],
     },
   });
@@ -239,15 +244,6 @@ export const ReturnOrderList = ({ children }: PropsWithChildren) => {
           title={t('return-orders.fields.phone')}
           defaultSortOrder={getDefaultSortOrder('phone', sorters)}
           defaultFilteredValue={getDefaultFilter('phone', filters, 'contains')}
-          sorter
-        />
-        <Table.Column<IReturnOrder>
-          align="right"
-          key="partnerId"
-          dataIndex="partnerId"
-          title={t('return-orders.fields.partnerId')}
-          defaultSortOrder={getDefaultSortOrder('partnerId', sorters)}
-          defaultFilteredValue={getDefaultFilter('partnerId', filters, 'eq')}
           sorter
         />
         <Table.Column<IReturnOrder>

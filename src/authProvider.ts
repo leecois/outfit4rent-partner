@@ -2,21 +2,26 @@ import type { AuthProvider } from '@refinedev/core';
 import { notification } from 'antd';
 import axios from 'axios';
 
-import { disableAutoLogin } from './hooks';
+import { disableAutoLogin, enableAutoLogin } from './hooks';
 
 export const TOKEN_KEY = 'o4r-auth';
 
 export const authProvider: AuthProvider = {
   login: async ({ email, password }) => {
     try {
+      const encodedEmail = encodeURIComponent(email);
       const response = await axios.get(
-        `https://api.outfit4rent.online/auth/admin/${email}/${password}`,
+        `https://api.outfit4rent.online/auth/partners/${encodedEmail}/${password}`,
       );
 
       if (response.data.statusCode === 'OK') {
-        const { token } = response.data.data;
+        const { token } = response.data.data.token;
         localStorage.setItem(TOKEN_KEY, token);
-        // enableAutoLogin();
+        console.log('Partner ID:', response.data.data.id as number);
+
+        localStorage.setItem('PARTNER_ID', response.data.data.id);
+
+        enableAutoLogin();
         return {
           success: true,
           redirectTo: '/',

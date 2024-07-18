@@ -6,10 +6,9 @@ export interface IProductInOrder {
   status: number;
   productId: number;
   userPackageId: number;
-  dateGive: Date;
-  dateReceive: Date;
   tornMoney: number;
   quantity: number;
+  itemInUsers: IProductInOrder[];
 }
 
 ///
@@ -143,6 +142,7 @@ export interface IOrder {
   packageName: string;
   dateFrom: Date;
   dateTo: Date;
+  orderCode: string;
   price: number;
   receiverName: string;
   receiverPhone: string;
@@ -152,6 +152,7 @@ export interface IOrder {
   quantityOfItems: number;
   totalDeposit: number;
   createdAt: Date;
+  itemInUsers: IProductInOrder[];
 }
 
 export interface IBrand {
@@ -257,10 +258,11 @@ export interface IReturnOrder {
   quantityOfItems: number;
   customerPackageId: number;
   createdAt: Date;
+  productReturnOrders: IProductInReturnOrder[];
 }
 export interface IProductInReturnOrder {
   id: number;
-  quantity: string;
+  quantity: number;
   damagedLevel: number;
   thornMoney: number;
   status: number;
