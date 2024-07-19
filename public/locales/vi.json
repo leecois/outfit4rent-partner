@@ -95,7 +95,8 @@
     "reject": "Từ chối",
     "rejectAll": "Từ chối tất cả",
     "nextStep": "Tiếp theo",
-    "previousStep": "Quay lại"
+    "previousStep": "Quay lại",
+    "search": "Tìm Kiếm"
   },
   "loading": "Đang tải",
   "tags": {
@@ -310,6 +311,9 @@
       "title": "Thực đơn thịnh hành hàng ngày"
     },
     "trendingProducts": {
+      "title": "Sản phẩm thịnh hành"
+    },
+    "trendingProduct": {
       "title": "Sản phẩm thịnh hành"
     }
   },
@@ -809,10 +813,18 @@
       "orderId": "ID đơn hàng",
       "dateReturn": "Ngày trả hàng",
       "quantityOfItems": "Số lượng sản phẩm",
-      "totalThornMoney": "Tiền trả lại"
+      "totalThornMoney": "Tiền trả lại",
+      "create": "Tạo đơn trả hàng",
+      "orderCode": "Mã đơn hàng",
+      "addressRequired": "Địa chỉ",
+      "nameRequired": "Name",
+      "phoneRequired": "Phone"
     },
     "id": "ID đơn trả hàng",
-    "return-orders": "Đơn trả hàng"
+    "return-orders": "Đơn trả hàng",
+    "titles": {
+      "create": "Tạo đơn trả hàng"
+    }
   },
   "errors": {
     "required": {
@@ -820,5 +832,8 @@
     },
     "minLength": "Tối thiểu {{min}} ký tự",
     "maxLength": "Tối đa {{max}} ký tự"
+  },
+  "return-order": {
+    "create": "Tạo đơn trả hàng"
   }
 }

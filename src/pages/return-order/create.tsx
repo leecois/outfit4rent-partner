@@ -293,7 +293,7 @@ export const ReturnOrderCreate: React.FC = () => {
             disabled={isOrderLoading || isProductLoading || isCreating}
             onClick={handleSubmit}
           >
-            {t('buttons.submit')}
+            {t('buttons.accept')}
           </Button>
         </Flex>
       }

@@ -95,7 +95,8 @@
     "reject": "Reject",
     "rejectAll": "Reject All",
     "nextStep": "Next",
-    "previousStep": "Previous"
+    "previousStep": "Previous",
+    "search": "Search"
   },
   "loading": "Loading",
   "tags": {
@@ -311,6 +312,9 @@
     },
     "trendingProducts": {
       "title": "Trending Products"
+    },
+    "trendingProduct": {
+      "title": "Trending Product"
     }
   },
   "enum": {
@@ -810,10 +814,17 @@
       "dateReturn": "Date Return",
       "quantityOfItems": "Quantity Items",
       "totalThornMoney": "Thorn Money",
-      "create": "Create Return Order"
+      "create": "Create Return Order",
+      "orderCode": "Order Code",
+      "nameRequired": "Name required",
+      "addressRequired": "Address Required",
+      "phoneRequired": "Phone Required"
     },
     "id": "Return Order ID",
-    "return-orders": "Return Order"
+    "return-orders": "Return Order",
+    "titles": {
+      "create": "Create Return Order"
+    }
   },
   "errors": {
     "required": {
